@@ -34,7 +34,6 @@ L'application est divisée en deux interfaces principales :
 - Gestion des modèles et des marques d'avions
 - Supervision des réservations de tous les clients
 - Tableaux de bord avec statistiques (nombre d'avions, réservations en cours, etc.)
-- Validation et annulation des réservations
 
 ## 🏗️ Architecture de l'application
 
@@ -147,6 +146,4 @@ Voici les identifiants pour tester l'application :
 ## 📝 Notes de développement
 
 - L'application utilise une interface moderne avec des effets visuels avancés (ombres, animations, etc.)
-- Le design respecte les principes du Material Design pour une expérience utilisateur optimale
-- Les messages d'erreur et de confirmation sont personnalisés pour une meilleure expérience utilisateur
 - Le système prévient automatiquement la suppression d'avions, de modèles ou de marques impliqués dans des réservations actives
