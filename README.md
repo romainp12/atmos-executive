@@ -1,4 +1,4 @@
-# ✈️ Atmos Executive - Gestion Location Avions
+# ✈️ Atmos Executive
 
 Cette application bureau développée en C# et WPF permet de gérer un service de location d'avions privés. Elle offre une interface moderne et intuitive pour les clients souhaitant réserver des avions, ainsi qu'un panel d'administration pour gérer l'ensemble du parc aérien.
 
