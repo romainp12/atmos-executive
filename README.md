@@ -81,7 +81,7 @@ GestionLocationAvions/
 
 1. **Clonez ou téléchargez le projet**
    ```bash
-   git clone https://github.com/votre-username/GestionLocationAvions.git
+   git clone https://github.com/romainp12/atmos-executive.git
    ```
 
 2. **Configurez la base de données**
@@ -89,7 +89,7 @@ GestionLocationAvions/
    - Importez le fichier SQL fourni pour créer les tables et les données initiales
    - Modifiez le fichier `ConnectionDB.cs` pour configurer la connexion à votre base de données :
    ```csharp
-   private static string connectionString = "Server=localhost;Database=GestionLocationAvions;Uid=votre_utilisateur;Pwd=votre_mot_de_passe;";
+   private static string connectionString = "Server=localhost;Database=gestionlocationavions;Uid=votre_utilisateur;Pwd=votre_mot_de_passe;";
    ```
 
 3. **Compilez et exécutez l'application**
