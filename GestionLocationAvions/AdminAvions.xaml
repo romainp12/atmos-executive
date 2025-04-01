@@ -1,0 +1,390 @@
+﻿<Window x:Class="GestionLocationAvions.AdminAvions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gestion des avions - Atmos Executive" Height="750" Width="1200"
+        WindowStartupLocation="CenterOwner" ResizeMode="CanResize">
+
+    <Window.Resources>
+        <Style x:Key="ModernButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#2980B9"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#3498DB"/>
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1B5E8A"/>
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AddButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" Value="#27AE60"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2ECC71"/>
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#219653"/>
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DeleteButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" Value="#E74C3C"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#F75C4C"/>
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#C0392B"/>
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Focusable="False" 
+                                          Padding="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#3498DB"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#2980B9"/>
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style pour les cartes d'avion -->
+        <Style x:Key="PlaneCardStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="2" Direction="315" BlurRadius="8" Opacity="0.15" Color="Black"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Border.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                To="15" Duration="0:0:0.2"/>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                To="0.25" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Border.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                To="8" Duration="0:0:0.2"/>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                To="0.15" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <DropShadowEffect x:Key="CardShadow" ShadowDepth="2" Direction="315" BlurRadius="8" Opacity="0.15" Color="Black"/>
+    </Window.Resources>
+
+    <!-- Structure pour que tout défile, y compris le formulaire -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel Background="#F5F7FA">
+            <!-- En-tête -->
+            <Border Background="#1E293B" Padding="24,18">
+                <TextBlock Text="Gestion des avions" Foreground="White" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
+            </Border>
+
+            <!-- Formulaire d'ajout/modification -->
+            <Border Background="White" Padding="24,20" Margin="0,2,0,0" Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Titre du formulaire -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Text="Nouvel avion" 
+                               FontSize="18" FontWeight="SemiBold" Foreground="#2C3E50" Margin="0,0,0,20"/>
+
+                    <!-- Première ligne -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Marque:" VerticalAlignment="Center" 
+                               Margin="0,0,10,8" Foreground="#2C3E50" FontWeight="Medium" FontSize="14"/>
+                    <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cbMarque" Height="40" VerticalAlignment="Center" 
+                              Margin="0,0,15,8" Style="{StaticResource ModernComboBoxStyle}" SelectionChanged="cbMarque_SelectionChanged"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="Modèle:" VerticalAlignment="Center" 
+                               Margin="0,0,10,8" Foreground="#2C3E50" FontWeight="Medium" FontSize="14"/>
+                    <ComboBox Grid.Row="1" Grid.Column="3" x:Name="cbModele" Height="40" VerticalAlignment="Center" 
+                              Margin="0,0,0,8" Style="{StaticResource ModernComboBoxStyle}"/>
+
+                    <!-- Deuxième ligne -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Immatriculation:" VerticalAlignment="Center" 
+                               Margin="0,10,10,8" Foreground="#2C3E50" FontWeight="Medium" FontSize="14"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtImmatriculation" Height="40" VerticalAlignment="Center" 
+                             Margin="0,10,15,8" Style="{StaticResource ModernTextBoxStyle}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="Année:" VerticalAlignment="Center" 
+                               Margin="0,10,10,8" Foreground="#2C3E50" FontWeight="Medium" FontSize="14"/>
+                    <TextBox Grid.Row="2" Grid.Column="3" x:Name="txtAnnee" Height="40" VerticalAlignment="Center" 
+                             Margin="0,10,0,8" Style="{StaticResource ModernTextBoxStyle}"/>
+
+                    <!-- Troisième ligne (URL de l'image) -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="URL de l'image:" VerticalAlignment="Center" 
+                               Margin="0,10,10,8" Foreground="#2C3E50" FontWeight="Medium" FontSize="14"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtImageUrl" Height="40" VerticalAlignment="Center" 
+                             Margin="0,10,15,8" Grid.ColumnSpan="3" Style="{StaticResource ModernTextBoxStyle}"/>
+
+                    <!-- Boutons - déplacés sur une nouvelle ligne -->
+                    <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                        <Button x:Name="btnAjouter" Content="Ajouter" Width="120" Height="44" Style="{StaticResource AddButtonStyle}" Click="btnAjouter_Click"/>
+                        <Button x:Name="btnAnnuler" Content="Annuler" Width="120" Height="44" Margin="12,0,0,0" 
+                                Style="{StaticResource ModernButtonStyle}" Click="btnAnnuler_Click" Visibility="Collapsed"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Liste des avions -->
+            <StackPanel Margin="20,20,20,20">
+                <TextBlock Text="Liste des avions" FontSize="18" FontWeight="SemiBold" Foreground="#2C3E50" Margin="10,0,0,16"/>
+
+                <ItemsControl x:Name="icAvions">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource PlaneCardStyle}" MinHeight="360" Width="350" Margin="10" VerticalAlignment="Top">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="170"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Image de l'avion avec overlay gradient -->
+                                    <Border Grid.Row="0" CornerRadius="12,12,0,0" ClipToBounds="True">
+                                        <Grid>
+                                            <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" Width="350" Height="170"/>
+                                            <Border Background="#66000000" CornerRadius="12,12,0,0"/>
+                                            <!-- Overlay sombre -->
+                                            <Border VerticalAlignment="Bottom" Padding="15,8,15,12">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding NomMarque}" FontSize="18" FontWeight="Bold" 
+                                                             Foreground="White" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding NomModele}" FontSize="16" 
+                                                             Foreground="White" Opacity="0.9" Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Informations et statut -->
+                                    <Grid Grid.Row="1" Margin="16,12,16,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Immatriculation}" FontSize="16" FontWeight="SemiBold" 
+                                                     Foreground="#2C3E50"/>
+                                            <TextBlock Text=" • " Foreground="#7F8C8D" Margin="5,0"/>
+                                            <TextBlock Text="{Binding Annee}" Foreground="#7F8C8D"/>
+                                        </StackPanel>
+
+                                        <!-- Badge de statut -->
+                                        <Border Grid.Column="1" CornerRadius="12" Padding="8,4" 
+                                              HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="#E8F5E9"/>
+                                                    <Setter Property="BorderBrush" Value="#C8E6C9"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Statut}" Value="Disponible">
+                                                            <Setter Property="Background" Value="#E8F5E9"/>
+                                                            <Setter Property="BorderBrush" Value="#C8E6C9"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Statut}" Value="Réservé">
+                                                            <Setter Property="Background" Value="#FFF3E0"/>
+                                                            <Setter Property="BorderBrush" Value="#FFECB3"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="0,0,4,0">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Text" Value="✅"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Statut}" Value="Réservé">
+                                                                    <Setter Property="Text" Value="🔸"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding Statut}" FontWeight="Medium" FontSize="12">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Foreground" Value="#43A047"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Statut}" Value="Réservé">
+                                                                    <Setter Property="Foreground" Value="#EF6C00"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+
+                                    <!-- Caractéristiques techniques -->
+                                    <StackPanel Grid.Row="2" Margin="16,12,16,0">
+                                        <TextBlock Text="Caractéristiques" FontWeight="SemiBold" 
+                                                 Foreground="#2C3E50" Margin="0,0,0,8"/>
+
+                                        <Grid Margin="0,0,0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="26"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="👥" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Capacite, StringFormat='{}{0} passagers'}" 
+                                                     Foreground="#2C3E50" Margin="6,0,0,0"/>
+                                        </Grid>
+
+                                        <Grid Margin="0,0,0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="26"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="📅" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Annee, StringFormat='Année {0}'}" 
+                                                     Foreground="#2C3E50" Margin="6,0,0,0"/>
+                                        </Grid>
+
+                                        <Grid Margin="0,0,0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="26"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="🔖" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Immatriculation}" 
+                                                     Foreground="#2C3E50" Margin="6,0,0,0"/>
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <!-- Boutons d'action -->
+                                    <Grid Grid.Row="3" Margin="16,10,16,16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="0" Content="Modifier" Height="40" Margin="0,0,6,0" 
+                                                Click="btnModifier_Click" Tag="{Binding IdAvion}" 
+                                                Style="{StaticResource ModernButtonStyle}"/>
+
+                                        <Button Grid.Column="1" Content="Supprimer" Height="40" Margin="6,0,0,0" 
+                                                Click="btnSupprimer_Click" Tag="{Binding IdAvion}" 
+                                                Style="{StaticResource DeleteButtonStyle}"/>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

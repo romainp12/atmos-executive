@@ -1,0 +1,357 @@
+﻿<Window x:Class="GestionLocationAvions.ClientDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dashboard - Atmos Executive" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="NavButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="12,12"/>
+            <Setter Property="Margin" Value="0,2,0,2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="buttonBorder" Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="8"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Left" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="buttonBorder" Property="Background" Value="#334155"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonBorder" Property="Background" Value="#475569"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#2980B9"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#3498DB"/>
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1B5E8A"/>
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ReserveButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ActionButtonStyle}">
+            <Setter Property="Background" Value="#27AE60"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2ECC71"/>
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#219653"/>
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style pour les cartes d'avion -->
+        <Style x:Key="PlaneCardStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="2" Direction="315" BlurRadius="8" Opacity="0.15" Color="Black"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Border.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                To="12" Duration="0:0:0.2"/>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                To="0.25" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Border.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                To="8" Duration="0:0:0.2"/>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                To="0.15" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <DropShadowEffect x:Key="CardShadow" ShadowDepth="2" Direction="315" BlurRadius="5" Opacity="0.2" Color="Black"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Navigation latérale -->
+        <Border Grid.Column="0" Background="#1E293B">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- En-tête du menu -->
+                <StackPanel Grid.Row="0" Margin="20,30,20,25">
+                    <TextBlock Text="Atmos Executive" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                    <TextBlock Text="✈️ Location d'avions privés" FontSize="13" Foreground="#94A3B8" HorizontalAlignment="Center" Margin="0,5,0,20"/>
+
+                    <!-- Carte de profil -->
+                    <Border Background="#334155" CornerRadius="12" Padding="0" Margin="0,0,0,5" Effect="{StaticResource CardShadow}">
+                        <Grid Margin="15,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Avatar -->
+                            <Border Grid.Column="0" Background="#0EA5E9" Width="40" Height="40" CornerRadius="20" Margin="0,0,12,0">
+                                <TextBlock x:Name="txtInitials" FontSize="16" FontWeight="Bold" Foreground="White" 
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Infos utilisateur -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="txtUserName" Text="Bienvenue, Utilisateur" Foreground="White" FontWeight="SemiBold"/>
+                                <TextBlock Text="Client" Foreground="#94A3B8" FontSize="12" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Menu principal -->
+                <StackPanel Grid.Row="1" Margin="12,20,12,0">
+                    <TextBlock Text="NAVIGATION" Foreground="#64748B" FontSize="12" FontWeight="SemiBold" Margin="12,0,0,10"/>
+
+                    <!-- Boutons de menu avec icônes -->
+                    <Button Content="Avions disponibles" Style="{StaticResource NavButtonStyle}" Background="#2980B9">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="✈️" FontSize="16" Margin="5,0,15,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+
+                    <Button x:Name="btnMesReservations" Content="Mes réservations" Style="{StaticResource NavButtonStyle}" Click="btnMesReservations_Click">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📅" FontSize="16" Margin="5,0,15,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+
+                <!-- Pied de menu -->
+                <Button x:Name="btnDeconnexion" Grid.Row="2" Style="{StaticResource NavButtonStyle}" Margin="12,0,12,20" 
+                        Background="#7F1D1D" Click="btnDeconnexion_Click" Height="48" VerticalAlignment="Bottom">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🚪" FontSize="16" Margin="5,0,15,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Déconnexion" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Contenu principal -->
+        <Grid Grid.Column="1" Background="#F8FAFC">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Titre de la section -->
+            <Border Grid.Row="0" Background="White" Padding="20,15" Effect="{StaticResource CardShadow}">
+                <TextBlock Text="Avions disponibles à la location" FontSize="18" FontWeight="SemiBold" Foreground="#2C3E50"/>
+            </Border>
+
+            <!-- Grille de cartes d'avions -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl x:Name="planesItemsControl" Margin="15,15,15,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" HorizontalAlignment="Stretch" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource PlaneCardStyle}" MinHeight="360" MaxHeight="420">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="170"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Image de l'avion avec overlay gradient -->
+                                    <Border Grid.Row="0" CornerRadius="12,12,0,0" ClipToBounds="True">
+                                        <Grid>
+                                            <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" Width="350" Height="170"/>
+                                            <Border Background="#66000000" CornerRadius="12,12,0,0"/>
+                                            <!-- Overlay sombre -->
+                                            <Border VerticalAlignment="Bottom" Padding="15,8,15,12">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding MarqueNom}" FontSize="18" FontWeight="Bold" 
+                                                             Foreground="White" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding ModeleNom}" FontSize="16" 
+                                                             Foreground="White" Opacity="0.9" Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Informations sur l'avion -->
+                                    <Grid Grid.Row="2" Margin="15,5,15,5">
+                                        <StackPanel>
+                                            <TextBlock Text="Caractéristiques" FontWeight="SemiBold" 
+                                                     Foreground="#2C3E50" Margin="0,0,0,8"/>
+
+                                            <Grid Margin="0,0,0,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="26"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="🔖" FontSize="14" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Immatriculation}" 
+                                                         Foreground="#2C3E50" Margin="6,0,0,0"/>
+                                            </Grid>
+
+                                            <Grid Margin="0,0,0,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="26"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="📅" FontSize="14" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Annee, StringFormat='Année {0}'}" 
+                                                         Foreground="#2C3E50" Margin="6,0,0,0"/>
+                                            </Grid>
+
+                                            <Grid Margin="0,0,0,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="26"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="👥" FontSize="14" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Capacite, StringFormat='{}{0} passagers'}" 
+                                                         Foreground="#2C3E50" Margin="6,0,0,0"/>
+                                            </Grid>
+
+                                            <Grid Margin="0,0,0,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="26"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="🛣️" FontSize="14" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Autonomie, StringFormat='{}{0} km autonomie'}" 
+                                                         Foreground="#2C3E50" Margin="6,0,0,0"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Badge de disponibilité -->
+                                    <Border Grid.Row="1" Background="#E8F5E9" BorderBrush="#C8E6C9" 
+                                           BorderThickness="1" CornerRadius="12" Padding="8,4" 
+                                           HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,15,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="✅" Margin="0,0,4,0"/>
+                                            <TextBlock Text="Disponible" FontWeight="Medium" FontSize="12" Foreground="#43A047"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Bouton de réservation -->
+                                    <Button Grid.Row="3" Content="Réserver cet avion" Style="{StaticResource ReserveButtonStyle}" 
+                                            Margin="15,5,15,15" Height="42" Click="btnReserver_Click" Tag="{Binding IdAvion}">
+                                        <Button.ContentTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="📝" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="Réserver cet avion" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Button.ContentTemplate>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Pied de page -->
+            <Border Grid.Row="2" Background="White" Padding="20,15" Effect="{StaticResource CardShadow}">
+                <TextBlock Text="© 2025 Atmos Executive" HorizontalAlignment="Center" Foreground="#7F8C8D"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

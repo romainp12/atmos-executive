@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="AdminAvions.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminDashboard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminMarques.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminModeles.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminReservations.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ClientDashboard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CustomMessageBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Login.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Register.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ReservationView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserReservations.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AdminAvions.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AdminDashboard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AdminMarques.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AdminModeles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AdminReservations.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ClientDashboard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Login.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Register.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ReservationView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserReservations.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

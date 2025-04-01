@@ -1,0 +1,345 @@
+﻿<Window x:Class="GestionLocationAvions.AdminDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Administration - Atmos Executive" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="NavButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="12,12"/>
+            <Setter Property="Margin" Value="0,2,0,2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="buttonBorder" Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="8"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Left" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="buttonBorder" Property="Background" Value="#334155"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonBorder" Property="Background" Value="#475569"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="StatCardStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Border.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                To="15" Duration="0:0:0.2"/>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                To="0.35" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Border.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                To="5" Duration="0:0:0.2"/>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                To="0.2" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <DropShadowEffect x:Key="CardShadow" ShadowDepth="2" Direction="315" BlurRadius="5" Opacity="0.2" Color="Black"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Navigation latérale améliorée -->
+        <Border Grid.Column="0" Background="#1E293B">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- En-tête du menu -->
+                <StackPanel Grid.Row="0" Margin="20,30,20,25">
+                    <TextBlock Text="Atmos Executive" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Administration" FontSize="13" Foreground="#94A3B8" HorizontalAlignment="Center" Margin="0,5,0,20"/>
+
+                    <!-- Carte de profil -->
+                    <Border Background="#334155" CornerRadius="12" Padding="0" Margin="0,0,0,5" Effect="{StaticResource CardShadow}">
+                        <Grid Margin="15,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Avatar -->
+                            <Border Grid.Column="0" Background="#0EA5E9" Width="40" Height="40" CornerRadius="20" Margin="0,0,12,0">
+                                <TextBlock x:Name="txtInitials" FontSize="16" FontWeight="Bold" Foreground="White" 
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Infos utilisateur -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="txtUserName" Text="Utilisateur" Foreground="White" FontWeight="SemiBold"/>
+                                <TextBlock Text="Administrateur" Foreground="#94A3B8" FontSize="12" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Menu principal -->
+                <StackPanel Grid.Row="1" Margin="12,20,12,0">
+                    <TextBlock Text="GESTION" Foreground="#64748B" FontSize="12" FontWeight="SemiBold" Margin="12,0,0,10"/>
+
+                    <!-- Boutons de menu avec icônes -->
+                    <Button x:Name="btnGestionMarques" Style="{StaticResource NavButtonStyle}" Click="btnGestionMarques_Click" Margin="0,4,0,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🏷️" FontSize="16" Margin="5,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Marques" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="btnGestionModeles" Style="{StaticResource NavButtonStyle}" Click="btnGestionModeles_Click" Margin="0,4,0,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🛩️" FontSize="16" Margin="5,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Modèles" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="btnGestionAvions" Style="{StaticResource NavButtonStyle}" Click="btnGestionAvions_Click" Margin="0,4,0,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="✈️" FontSize="16" Margin="5,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Avions" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="btnGestionReservations" Style="{StaticResource NavButtonStyle}" Click="btnGestionReservations_Click" Margin="0,4,0,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📅" FontSize="16" Margin="5,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Réservations" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- Pied de menu -->
+                <Button x:Name="btnDeconnexion" Grid.Row="2" Style="{StaticResource NavButtonStyle}" Margin="12,0,12,20" 
+                        Background="#7F1D1D" Click="btnDeconnexion_Click" Height="48" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🚪" FontSize="16" Margin="5,0,15,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Déconnexion" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Contenu principal -->
+        <Grid Grid.Column="1" Background="#F8FAFC">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Titre de la section -->
+            <Border Grid.Row="0" Background="White" Padding="20,15" Effect="{StaticResource CardShadow}">
+                <TextBlock Text="Tableau de bord d'administration" FontSize="18" FontWeight="SemiBold" Foreground="#2C3E50"/>
+            </Border>
+
+            <!-- Statistiques avec design amélioré -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Nombre d'avions -->
+                    <Border Grid.Column="0" Grid.Row="0" Style="{StaticResource StatCardStyle}" Effect="{StaticResource CardShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icône avion -->
+                            <Border Grid.Column="0" Background="#E3F2FD" CornerRadius="8" Width="60" Height="60" Margin="0,0,15,0">
+                                <TextBlock Text="✈️" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Nombre d'avions" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                                <TextBlock x:Name="txtNombreAvions" Text="0" FontSize="36" Margin="0,5,0,0" Foreground="#3498DB" FontWeight="SemiBold"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="🔄" FontSize="12" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Flotte active" Foreground="#7F8C8D" FontSize="12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Réservations en cours -->
+                    <Border Grid.Column="1" Grid.Row="0" Style="{StaticResource StatCardStyle}" Effect="{StaticResource CardShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icône en cours -->
+                            <Border Grid.Column="0" Background="#E8F5E9" CornerRadius="8" Width="60" Height="60" Margin="0,0,15,0">
+                                <TextBlock Text="🟢" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Réservations en cours" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                                <TextBlock x:Name="txtReservationsEnCours" Text="0" FontSize="36" Margin="0,5,0,0" Foreground="#27AE60" FontWeight="SemiBold"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="📊" FontSize="12" Margin="0,0,5,0"/>
+                                    <TextBlock Text="En temps réel" Foreground="#7F8C8D" FontSize="12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Nombre d'utilisateurs -->
+                    <Border Grid.Column="2" Grid.Row="0" Style="{StaticResource StatCardStyle}" Effect="{StaticResource CardShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icône utilisateurs -->
+                            <Border Grid.Column="0" Background="#F3E5F5" CornerRadius="8" Width="60" Height="60" Margin="0,0,15,0">
+                                <TextBlock Text="👥" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Nombre d'utilisateurs" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                                <TextBlock x:Name="txtNombreUtilisateurs" Text="0" FontSize="36" Margin="0,5,0,0" Foreground="#9B59B6" FontWeight="SemiBold"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="🔒" FontSize="12" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Comptes actifs" Foreground="#7F8C8D" FontSize="12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Réservations à venir -->
+                    <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource StatCardStyle}" Effect="{StaticResource CardShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icône à venir -->
+                            <Border Grid.Column="0" Background="#E3F2FD" CornerRadius="8" Width="60" Height="60" Margin="0,0,15,0">
+                                <TextBlock Text="📅" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Réservations à venir" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                                <TextBlock x:Name="txtReservationsAVenir" Text="0" FontSize="36" Margin="0,5,0,0" Foreground="#3498DB" FontWeight="SemiBold"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="⏳" FontSize="12" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Planifiées" Foreground="#7F8C8D" FontSize="12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Réservations passées -->
+                    <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource StatCardStyle}" Effect="{StaticResource CardShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icône passées -->
+                            <Border Grid.Column="0" Background="#ECEFF1" CornerRadius="8" Width="60" Height="60" Margin="0,0,15,0">
+                                <TextBlock Text="✓" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Réservations passées" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                                <TextBlock x:Name="txtReservationsPassees" Text="0" FontSize="36" Margin="0,5,0,0" Foreground="#7F8C8D" FontWeight="SemiBold"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="🗓️" FontSize="12" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Historique" Foreground="#7F8C8D" FontSize="12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Réservations annulées -->
+                    <Border Grid.Column="2" Grid.Row="1" Style="{StaticResource StatCardStyle}" Effect="{StaticResource CardShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icône annulées -->
+                            <Border Grid.Column="0" Background="#FFEBEE" CornerRadius="8" Width="60" Height="60" Margin="0,0,15,0">
+                                <TextBlock Text="❌" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Réservations annulées" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                                <TextBlock x:Name="txtReservationsAnnulees" Text="0" FontSize="36" Margin="0,5,0,0" Foreground="#E74C3C" FontWeight="SemiBold"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="📉" FontSize="12" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Annulations" Foreground="#7F8C8D" FontSize="12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+
+            <!-- Pied de page -->
+            <Border Grid.Row="2" Background="White" Padding="15,10" Effect="{StaticResource CardShadow}">
+                <TextBlock Text="© 2025 Atmos Executive - Tous droits réservés" HorizontalAlignment="Center" Foreground="#7F8C8D"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
