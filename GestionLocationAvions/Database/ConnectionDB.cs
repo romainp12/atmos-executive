@@ -13,7 +13,7 @@ namespace GestionLocationAvions.Database
     {
         // Chaîne de connexion à la base de données MySQL
         private static string connectionString =
-            "Server=localhost;Database=gestionlocationavions;Uid=romaina;Pwd=romaina;";
+            "Server=localhost;Database=gestionlocationavions;Uid=your_username;Pwd=your_password;";
 
         // Méthode pour obtenir une connexion à la base de données
         public static MySqlConnection GetConnection()
